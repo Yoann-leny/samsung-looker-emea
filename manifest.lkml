@@ -3,7 +3,7 @@ project_name: "block-ga-360-config"
 ################ Constants ################
 
 constant: SCHEMA_NAME {
-  value: "bigquery-public-data.google_analytics_sample"
+  value: "01_dl_seuk_gb_ga360_159092699"
   export: override_required
 }
 
