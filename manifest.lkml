@@ -17,9 +17,6 @@ constant: EXPLORE_DATE_FILTER {
   export: override_required
 }
 
-application: my-great-extension {
-  label: "My Great Extension"
-  url: "http://localhost:8080/bundle.js"
-}
+
 
 #comment
