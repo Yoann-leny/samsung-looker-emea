@@ -1,20 +1,17 @@
-
-
+include: "/Google_Analytics/traffic_source.*"
 
 view: ga_sessions_config {
   # extends: [ga_sessions_core]
+  extends: [traffic_source_config,device_config,geonetwork_config,totals_config]
   extension: required
 
-  # extends: [
   #   calendar,
   #   geonetwork,
   #   totals,
-  #   traffic_source,
   #   device,
   #   custom_navigation_buttons,
   #   ga_sessions_partition_date,
 
-  # ]
 
   ########## PRIMARY KEYS ##########
 
@@ -495,33 +492,33 @@ view: ga_sessions_config {
 #   }
 
 # # S2 TODO: Uncomment field and comment out the partition date above
-#   dimension_group: partition {
-#     # Date that is parsed from the table name. Required as a filter to avoid accidental massive queries
-#     label: ""
-#     view_label: "Session"
-#     description: "Date based on the day the session was added to the database. Matches date in Google Analytics UI, but may not match 'Session Start Date'."
-#     type: time
-#     timeframes: [
-#       date,
-#       day_of_week,
-#       day_of_week_index,
-#       day_of_month,
-#       day_of_year,
-#       fiscal_quarter,
-#       fiscal_quarter_of_year,
-#       week,
-#       month,
-#       month_name,
-#       month_num,
-#       quarter,
-#       quarter_of_year,
-#       week_of_year,
-#       year
-#     ]
-#     sql: ${TABLE}.partition_date ;;
-#     # can_filter: no
-#     convert_tz: no
-#   }
+  dimension_group: partition {
+    # Date that is parsed from the table name. Required as a filter to avoid accidental massive queries
+    label: ""
+    view_label: "Session"
+    description: "Date based on the day the session was added to the database. Matches date in Google Analytics UI, but may not match 'Session Start Date'."
+    type: time
+    timeframes: [
+      date,
+      day_of_week,
+      day_of_week_index,
+      day_of_month,
+      day_of_year,
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      week,
+      month,
+      month_name,
+      month_num,
+      quarter,
+      quarter_of_year,
+      week_of_year,
+      year
+    ]
+    sql: ${TABLE}.partition_date ;;
+    # can_filter: no
+    convert_tz: no
+  }
 
 # # S2 TODO: Uncomment out the field and update the property and website names
 #   dimension: property {

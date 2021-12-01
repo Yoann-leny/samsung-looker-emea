@@ -1,6 +1,7 @@
 view: traffic_source_config {
-  extends: [traffic_source_core]
+  # extends: [traffic_source_core]
   extension: required
+
   ########## DIMENSIONS ############
 
   dimension: adcontent {
@@ -121,6 +122,4 @@ view: traffic_source_config {
     type: list
     list_field: source
   }
-  # Add view customizations here
-
 }
