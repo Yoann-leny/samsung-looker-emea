@@ -2,7 +2,8 @@ include: "/views/*.view.lkml"
 include: "/Google_Analytics/Custom_Views/*.view.lkml"
 
 explore: ga_sessions {
-  label: "Google Analytics Sessions"
+  label: "GA Sessions Explore"
+  group_label: "Test Looker Block"
   description: "Explores Google Analytics sessions data."
 
   # aggregate_table: sessions_by_session_start_date {
@@ -26,6 +27,20 @@ explore: ga_sessions {
     sql: LEFT JOIN UNNEST(${ga_sessions.hits}) AS hits ;;
     relationship: one_to_many
   }
+
+  join: product {
+    view_label: "Hits Product"
+    type: left_outer
+    sql: LEFT JOIN UNNEST(${hits.product}) AS product ;;
+    relationship: one_to_many
+  }
+
+  # join: transaction {
+  #   view_label: "Hits Transaction"
+  #   type: left_outer
+  #   sql: LEFT JOIN UNNEST(${hits.transaction}) AS transaction ;;
+  #   relationship: one_to_many
+  # }
 
   # join: page_funnel {
   #   type: left_outer
@@ -90,120 +105,120 @@ explore: ga_sessions {
   ## Aggregate Tables for LookML Dashboards
   ## GA360 Overview Dashboard
 
-  # aggregate_table: rollup__percent_new_sessions__visits_total {
-  #   query: {
-  #     dimensions: [ga_sessions.partition_date, ga_sessions.landing_page_hostname, ga_sessions.channel_grouping, ga_sessions.medium, ga_sessions.source, ga_sessions.continent, ga_sessions.country]
-  #     measures: [percent_new_sessions, visits_total]
-  #   }
+  aggregate_table: rollup__percent_new_sessions__visits_total {
+    query: {
+      dimensions: [ga_sessions.partition_date, ga_sessions.landing_page_hostname, ga_sessions.channel_grouping, ga_sessions.medium, ga_sessions.source, ga_sessions.continent, ga_sessions.country]
+      measures: [percent_new_sessions, visits_total]
+    }
 
-  #   materialization: {
-  #     persist_for: "24 hours"
-  #   }
-  # }
+    materialization: {
+      persist_for: "24 hours"
+    }
+  }
 
-  # aggregate_table: rollup__bounce_rate__bounces_total {
-  #   query: {
-  #     dimensions: [ga_sessions.partition_date, ga_sessions.landing_page_hostname]
-  #     measures: [bounce_rate, bounces_total]
-  #   }
+  aggregate_table: rollup__bounce_rate__bounces_total {
+    query: {
+      dimensions: [ga_sessions.partition_date, ga_sessions.landing_page_hostname]
+      measures: [bounce_rate, bounces_total]
+    }
 
-  #   materialization: {
-  #     persist_for: "24 hours"
-  #   }
-  # }
+    materialization: {
+      persist_for: "24 hours"
+    }
+  }
 
-  # aggregate_table: rollup__timeonsite_average_per_session {
-  #   query: {
-  #     dimensions: [ga_sessions.partition_date, ga_sessions.landing_page_hostname]
-  #     measures: [timeonsite_average_per_session]
-  #   }
+  aggregate_table: rollup__timeonsite_average_per_session {
+    query: {
+      dimensions: [ga_sessions.partition_date, ga_sessions.landing_page_hostname]
+      measures: [timeonsite_average_per_session]
+    }
 
-  #   materialization: {
-  #     persist_for: "24 hours"
-  #   }
-  # }
+    materialization: {
+      persist_for: "24 hours"
+    }
+  }
 
-  # aggregate_table: rollup__time_on_site_tier {
-  #   query: {
-  #     dimensions: [time_on_site_tier, ga_sessions.partition_date, ga_sessions.landing_page_hostname]
-  #     measures: [visits_total]
-  #     timezone: "America/Los_Angeles"
-  #   }
+  aggregate_table: rollup__time_on_site_tier {
+    query: {
+      dimensions: [time_on_site_tier, ga_sessions.partition_date, ga_sessions.landing_page_hostname]
+      measures: [visits_total]
+      timezone: "America/Los_Angeles"
+    }
 
-  #   materialization: {
-  #     persist_for: "24 hours"
-  #   }
-  # }
+    materialization: {
+      persist_for: "24 hours"
+    }
+  }
 
-  # aggregate_table: rollup__continent__visit_start_month {
-  #   query: {
-  #     dimensions: [continent, ga_sessions.visit_start_month, ga_sessions.partition_date, ga_sessions.landing_page_hostname]
-  #     measures: [visits_total]
-  #     timezone: "America/Los_Angeles"
-  #   }
+  aggregate_table: rollup__continent__visit_start_month {
+    query: {
+      dimensions: [continent, ga_sessions.visit_start_month, ga_sessions.partition_date, ga_sessions.landing_page_hostname]
+      measures: [visits_total]
+      timezone: "America/Los_Angeles"
+    }
 
-  #   materialization: {
-  #     persist_for: "24 hours"
-  #   }
-  # }
+    materialization: {
+      persist_for: "24 hours"
+    }
+  }
 
-  # aggregate_table: rollup__region {
-  #   query: {
-  #     dimensions: [region, ga_sessions.country, ga_sessions.partition_date, ga_sessions.landing_page_hostname]
-  #     measures: [visits_total]
-  #     timezone: "America/Los_Angeles"
-  #   }
+  aggregate_table: rollup__region {
+    query: {
+      dimensions: [region, ga_sessions.country, ga_sessions.partition_date, ga_sessions.landing_page_hostname]
+      measures: [visits_total]
+      timezone: "America/Los_Angeles"
+    }
 
-  #   materialization: {
-  #     persist_for: "24 hours"
-  #   }
-  # }
+    materialization: {
+      persist_for: "24 hours"
+    }
+  }
 
-  # aggregate_table: rollup__source {
-  #   query: {
-  #     dimensions: [source, ga_sessions.medium, ga_sessions.source_medium, ga_sessions.partition_date, ga_sessions.landing_page_hostname, ga_sessions.continent, ga_sessions.country]
-  #     measures: [visits_total]
-  #     timezone: "America/Los_Angeles"
-  #   }
+  aggregate_table: rollup__source {
+    query: {
+      dimensions: [source, ga_sessions.medium, ga_sessions.source_medium, ga_sessions.partition_date, ga_sessions.landing_page_hostname, ga_sessions.continent, ga_sessions.country]
+      measures: [visits_total]
+      timezone: "America/Los_Angeles"
+    }
 
-  #   materialization: {
-  #     persist_for: "24 hours"
-  #   }
-  # }
+    materialization: {
+      persist_for: "24 hours"
+    }
+  }
 
-  # aggregate_table: rollup__landing_page_formatted {
-  #   query: {
-  #     dimensions: [landing_page_formatted, ga_sessions.landing_page_hostname, ga_sessions.partition_date, ga_sessions.channel_grouping, ga_sessions.medium, ga_sessions.source, ga_sessions.source_medium, ga_sessions.continent, ga_sessions.country]
-  #     measures: [visits_total, percent_new_sessions]
-  #     timezone: "America/Los_Angeles"
-  #   }
+  aggregate_table: rollup__landing_page_formatted {
+    query: {
+      dimensions: [landing_page_formatted, ga_sessions.landing_page_hostname, ga_sessions.partition_date, ga_sessions.channel_grouping, ga_sessions.medium, ga_sessions.source, ga_sessions.source_medium, ga_sessions.continent, ga_sessions.country]
+      measures: [visits_total, percent_new_sessions]
+      timezone: "America/Los_Angeles"
+    }
 
-  #   materialization: {
-  #     persist_for: "24 hours"
-  #   }
-  # }
+    materialization: {
+      persist_for: "24 hours"
+    }
+  }
 
-  # aggregate_table: rollup__hits_page_count__hits_unique_page_count {
-  #   query: {
-  #     dimensions: [ga_sessions.partition_date, ga_sessions.landing_page_hostname]
-  #     measures: [hits.page_count, hits.unique_page_count]
-  #   }
+  aggregate_table: rollup__hits_page_count__hits_unique_page_count {
+    query: {
+      dimensions: [ga_sessions.partition_date, ga_sessions.landing_page_hostname]
+      measures: [hits.page_count, hits.unique_page_count]
+    }
 
-  #   materialization: {
-  #     persist_for: "24 hours"
-  #   }
-  # }
+    materialization: {
+      persist_for: "24 hours"
+    }
+  }
 
-  # aggregate_table: rollup__hits_page_path_formatted {
-  #   query: {
-  #     dimensions: [hits.page_path_formatted, ga_sessions.partition_date, ga_sessions.landing_page_hostname]
-  #     measures: [hits.page_count, hits.unique_page_count]
-  #   }
+  aggregate_table: rollup__hits_page_path_formatted {
+    query: {
+      dimensions: [hits.page_path_formatted, ga_sessions.partition_date, ga_sessions.landing_page_hostname]
+      measures: [hits.page_count, hits.unique_page_count]
+    }
 
-  #   materialization: {
-  #     persist_for: "24 hours"
-  #   }
-  # }
+    materialization: {
+      persist_for: "24 hours"
+    }
+  }
 
   # ## End GA360 Dashboard
 

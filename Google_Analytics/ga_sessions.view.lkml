@@ -172,6 +172,7 @@ view: ga_sessions_config {
         ) ;;
   }
 
+
   dimension: landing_page_formatted {
     view_label: "Behavior"
     group_label: "Pages"
@@ -180,6 +181,7 @@ view: ga_sessions_config {
     type: string
     sql: SPLIT(${landing_page}, '?')[OFFSET(0)];;
   }
+
 
   dimension: landing_page_hostname {
     view_label: "Behavior"

@@ -1,6 +1,17 @@
+include: "/Google_Analytics/hits.*"
 view: hits {
 
-  extends: [hits]
+  extends: [hits_config]
+
+  dimension: product {
+    hidden: yes
+    sql: ${TABLE}.product ;;
+  }
+
+  dimension: transaction {
+    hidden: yes
+    sql: ${TABLE}.transaction ;;
+  }
   # # You can specify the table name if it's different from the view name:
   # sql_table_name: my_schema_name.tester ;;
   #
