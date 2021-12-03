@@ -1,3 +1,4 @@
+include: "/views/SEUK/*.*"
 view: hits_config {
   # extends: [hits_core]
   extension: required
@@ -201,7 +202,28 @@ view: hits_config {
     label: "Landing Page (cid)"
     description: "Landing page for session without url parameters."
     type: string
-    sql: SPLIT(SPLIT(${page_path}, 'cid=')[SAFE_OFFSET(1)],'&')[OFFSET(0)];;
+    sql: CASE WHEN ${ga_sessions.channel_grouping}="Email"
+    THEN SPLIT(SPLIT(${page_path}, 'cid=')[SAFE_OFFSET(1)],'&')[OFFSET(0)] END;;
+  }
+
+
+  dimension: landing_page_cid_campaign_name {
+    view_label: "Behavior"
+    group_label: "Pages"
+    label: "Landing Page (cid_campaign)"
+    description: "Landing page for session without url parameters."
+    type: string
+    sql: SPLIT(${landing_page_cid},'_')[SAFE_OFFSET(6)];;
+  }
+
+  dimension: landing_page_samid {
+    view_label: "Behavior"
+    group_label: "Pages"
+    label: "Landing Page (samid)"
+    description: "Landing page for session with url parameters."
+    type: string
+    sql: CASE WHEN ${ga_sessions.channel_grouping}="Email"
+    THEN SPLIT(SPLIT(${page_path}, 'samid=')[SAFE_OFFSET(1)],'&')[OFFSET(0)] END;;
   }
 
   dimension: landing_page_segment {
@@ -210,7 +232,8 @@ view: hits_config {
     label: "Landing Page (segment)"
     description: "Landing page for session without url parameters."
     type: string
-    sql: SPLIT(SPLIT(${page_path}, 'segment=')[SAFE_OFFSET(1)],'&')[OFFSET(0)];;
+    sql: CASE WHEN ${ga_sessions.channel_grouping}="Email"
+    THEN COALESCE(SPLIT(SPLIT(${page_path}, 'segment=')[SAFE_OFFSET(1)],'&')[OFFSET(0)],SPLIT(${landing_page_cid},'_')[SAFE_OFFSET(9)]) END;;
   }
 
   dimension: page_path_formatted {
@@ -297,6 +320,14 @@ view: hits_config {
     description: "For social interactions, this is the social action (e.g., +1, bookmark) being tracked."
     type: string
     sql: ${TABLE}.social.socialInteractionAction ;;
+  }
+
+  dimension: has_social_source_referral {
+    hidden: yes
+    group_label: "Social Interactions"
+    label: "Has Social Source Referral"
+    type: string
+    sql: ${TABLE}.social.hasSocialSourceReferral ;;
   }
 
   dimension: social_interaction_network {

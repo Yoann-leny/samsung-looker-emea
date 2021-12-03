@@ -2,7 +2,7 @@ include: "/Google_Analytics/traffic_source.*"
 
 view: ga_sessions_config {
   # extends: [ga_sessions_core]
-  extends: [traffic_source_config,device_config,geonetwork_config,totals_config]
+  extends: [channel, traffic_source_config,device_config,geonetwork_config,totals_config]
   extension: required
 
   #   calendar,

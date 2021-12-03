@@ -1,9 +1,8 @@
-include: "/views/*.view.lkml"
+include: "/views/**/*.view.lkml"
 include: "/Google_Analytics/Custom_Views/*.view.lkml"
 
 explore: ga_sessions {
   label: "GA Sessions Explore"
-  group_label: "Test Looker Block"
   description: "Explores Google Analytics sessions data."
 
   # aggregate_table: sessions_by_session_start_date {
