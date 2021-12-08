@@ -134,6 +134,12 @@ view: hits_config {
     sql: ${TABLE}.hitNumber ;;
   }
 
+  dimension: action_type {
+    label: "Action type (Hits)"
+    type: number
+    sql: ${TABLE}.ecommerceaction.action_type ;;
+  }
+
   dimension: host_name {
     view_label: "Behavior"
     group_label: "Pages"

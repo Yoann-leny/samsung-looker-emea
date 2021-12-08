@@ -2,7 +2,7 @@ include: "/Google_Analytics/traffic_source.*"
 
 view: ga_sessions_config {
   # extends: [ga_sessions_core]
-  extends: [channel, traffic_source_config,device_config,geonetwork_config,totals_config]
+  extends: [channel,category,storefront,division, traffic_source_config,device_config,geonetwork_config,totals_config]
   extension: required
 
   #   calendar,
@@ -29,6 +29,11 @@ view: ga_sessions_config {
           --, CAST(PARSE_DATE('%Y%m%d', REGEXP_EXTRACT(_TABLE_SUFFIX,r'^\d\d\d\d\d\d\d\d')) AS STRING)
         ) ;;
   }
+
+  # measure:  add_to_cart{
+  #   type:  count_distinct
+  #   sql: Case when ${visits_total}=1 and  ;;
+  # }
 
   ########## FOREIGN KEYS ##########
   dimension: full_visitor_id {

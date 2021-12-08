@@ -11,6 +11,11 @@ view: product_config {
     sql: ${TABLE}.customMetrics ;;
   }
 
+  dimension: revenue {
+    type: number
+    sql: CASE WHEN ${TABLE}.customMetrics.index=4 THEN ${TABLE}.customMetrics.value ELSE NULL END)/1.2 ;;
+  }
+
   dimension: is_click {
     type: yesno
     sql: ${TABLE}.isClick ;;

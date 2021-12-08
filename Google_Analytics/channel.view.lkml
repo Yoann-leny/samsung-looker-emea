@@ -4,7 +4,7 @@ view: channel {
   extension: required
 
 
-  dimension: channel_test {
+  dimension: channel {
     type: string
     sql:     CASE
     WHEN
